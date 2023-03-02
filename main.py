@@ -1,41 +1,27 @@
-from datetime import datetime
-import traceback
+import json
 
+from client_libretranslate import detect_language, select_to_translate, translate
 import speech_recognition as sr
 
-r = sr.Recognizer()
-with sr.Microphone() as source:
-    print(datetime.now())
-    print('say something')
-    audio = r.listen(source)
-    print(datetime.now())
+
+def _detect_text() -> str:
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        audio = r.listen(source)
+
+    result = r.recognize_vosk(audio)
+    result_dict = json.loads(result)
+    return result_dict["text"]
 
 
-# Doesn't work well
-try:
-    print('recognizing...')
-    print(datetime.now())
-    print("Sphinx thinks you said:", f"'{r.recognize_sphinx(audio)}'")
-    print(datetime.now())
-except Exception:
-    traceback.print_exc()
+def main():
+    recognized_text = _detect_text()
+    print("Recognized text:", recognized_text)
+    detected_language = detect_language(recognized_text)
+    to_translate = select_to_translate(detected_language)
+    translation = translate(recognized_text, detected_language, to_translate)
+    print("Translation:", translation)
 
 
-# Works well
-try:
-    print('recognizing...')
-    print(datetime.now())
-    print("Vosk thinks you said:", f"'{r.recognize_vosk(audio)}'")
-    print(datetime.now())
-except Exception:
-    traceback.print_exc()
-
-
-# Doesn't work
-try:
-    print('recognizing...')
-    print(datetime.now())
-    print("Tensorflow thinks you said:", f"'{r.recognize_tensorflow(audio)}'")
-    print(datetime.now())
-except Exception:
-    traceback.print_exc()
+if __name__ == "__main__":
+    main()
