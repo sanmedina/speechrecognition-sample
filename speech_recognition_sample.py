@@ -6,14 +6,14 @@ import speech_recognition as sr
 r = sr.Recognizer()
 with sr.Microphone() as source:
     print(datetime.now())
-    print('say something')
+    print("say something")
     audio = r.listen(source)
     print(datetime.now())
 
 
 # Doesn't work well
 try:
-    print('recognizing...')
+    print("recognizing...")
     print(datetime.now())
     print("Sphinx thinks you said:", f"'{r.recognize_sphinx(audio)}'")
     print(datetime.now())
@@ -23,7 +23,7 @@ except Exception:
 
 # Works well
 try:
-    print('recognizing...')
+    print("recognizing...")
     print(datetime.now())
     print("Vosk thinks you said:", f"'{r.recognize_vosk(audio)}'")
     print(datetime.now())
@@ -33,7 +33,7 @@ except Exception:
 
 # Doesn't work
 try:
-    print('recognizing...')
+    print("recognizing...")
     print(datetime.now())
     print("Tensorflow thinks you said:", f"'{r.recognize_tensorflow(audio)}'")
     print(datetime.now())

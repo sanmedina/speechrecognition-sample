@@ -3,11 +3,7 @@ import requests
 
 def detect_language(text: str):
     response = requests.post(
-        "http://localhost:5000/detect",
-        json={
-            "q": text,
-            "api_key": ""
-        }
+        "http://localhost:5000/detect", json={"q": text, "api_key": ""}
     )
     result = response.json()
     return result[0]["language"]
@@ -25,8 +21,8 @@ def translate(text: str, source_language: str, target_language: str):
             "source": source_language,
             "target": target_language,
             "format": "text",
-            "api_key": ""
-        }
+            "api_key": "",
+        },
     )
     result = response.json()
     return result["translatedText"]
